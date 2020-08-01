@@ -31,3 +31,8 @@ target/
 
 ### MacOs ###
 .DS_Store
+/mvnw
+/mvnw.cmd
+/.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/maven-wrapper.properties
+/.mvn/wrapper/MavenWrapperDownloader.java
