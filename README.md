@@ -29,7 +29,7 @@ The back-end is all about security and connecting the front-end to database data
 1. Managing user access with Spring Security
  - Restrict unauthorized users from accessing pages other than the login and signup pages. Created a security configuration class that extends the `WebSecurityConfigurerAdapter` class from Spring. This class is in a package reserved for security and configuration. This package is called `security`.
  - Spring Boot has built-in support for handling calls to the `/login` and `/logout` endpoints. I used the security configuration to override the default login page with one of my own, discussed in the front-end section.
- - You also need to implement a custom `AuthenticationProvider` which authorizes user logins by matching their credentials against those stored in the database.  
+ - I implemented a custom `AuthenticationProvider` which authorizes user logins by matching their credentials against those stored in the database.  
 
 
 2. Handling front-end calls with controllers
