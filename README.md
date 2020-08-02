@@ -33,10 +33,10 @@ The back-end is all about security and connecting the front-end to database data
 
 
 2. Handling front-end calls with controllers
- - You need to write controllers for the application that bind application data and functionality to the front-end. That means using Spring MVC's application model to identify the templates served for different requests and populating the view model with data needed by the template. 
- - The controllers you write should also be responsible for determining what, if any, error messages the application displays to the user. When a controller processes front-end requests, it should delegate the individual steps and logic of those requests to other services in the application, but it should interpret the results to ensure a smooth user experience.
- - It's a good idea to keep your controllers in a single package to isolate the controller layer. Usually, we simply call this package `controller`!
- - If you find yourself repeating tasks over and over again in controller methods, or your controller methods are getting long and complicated, consider abstracting some methods out into services! For example, consider the `HashService` and `EncryptionService` classes included in the starter code package `service`. These classes encapsulate simple, repetitive tasks and are available anywhere dependency injection is supported. Think about additional tasks that can be similarly abstracted and reused, and create new services to support them!
+ - I wrOte controllers for the application that bind application data and functionality to the front-end. That means using Spring MVC's application model to identify the templates served for different requests and populating the view model with data needed by the template. 
+ - The controllers I wrote are also responsible for determining what, if any, error messages the application displays to the user. When a controller processes front-end requests, it delegates the individual steps and logic of those requests to other services in the application, but it interprets the results to ensure a smooth user experience.
+ - My controllers are kept in a single package to isolate the controller layer. I simply call this package `controller`!
+ - Simple, repetitive tasks are abstracted and reused as services.
 
 
 3. Making calls to the database with MyBatis mappers
