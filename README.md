@@ -45,7 +45,7 @@ The back-end is all about security and connecting the front-end to database data
 
 
 ### The Front-End
-Your tech lead has done a thorough job developing HTML templates for the required application pages. They have included fields, modal forms, success and error message elements, as well as styling and functional components using Bootstrap as a framework. You must edit these templates and insert Thymeleaf attributes to supply the back-end data and functionality described by the following individual page requirements:
+My tech lead did a thorough job developing HTML templates for the required application pages. They have included fields, modal forms, success and error message elements, as well as styling and functional components using Bootstrap as a framework. I edited these templates and inserted Thymeleaf attributes to supply the back-end data and functionality described by the following individual page requirements:
 
 1. Login page
  - Everyone should be allowed access to this page, and users can use this page to login to the application. 
