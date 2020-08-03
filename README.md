@@ -41,7 +41,7 @@ The back-end is all about security and connecting the front-end to database data
 
 3. Making calls to the database with MyBatis mappers
  - Since I was provided with a database schema to work with, I designed Java classes to match the data in the database. These are POJOs (Plain Old Java Objects) with fields that match the names and data types in the schema, and I created one class per database table. These classes are placed in the `model` package.
- - To connect these model classes with database data, implement MyBatis mapper interfaces for each of the model types. These mappers should have methods that represent specific SQL queries and statements required by the functionality of the application. They should support the basic CRUD (Create, Read, Update, Delete) operations for their respective models at the very least. You can place these classes in (you guessed it!) the `mapper` package.
+ - To connect these model classes with database data, implemented MyBatis mapper interfaces for each of the model types. These mappers have methods that represent specific SQL queries and statements required by the functionality of the application. They support the basic CRUD (Create, Read, Update, Delete) operations for their respective models at the very least. I placed these classes in (you guessed it!) the `mapper` package.
 
 
 ### The Front-End
