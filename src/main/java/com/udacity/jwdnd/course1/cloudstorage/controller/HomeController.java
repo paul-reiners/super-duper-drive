@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class HomeController {
 
-    private FileService messageListService;
+    private FileService fileService;
 
-    public HomeController(FileService messageListService) {
-        this.messageListService = messageListService;
+    public HomeController(FileService fileService) {
+        this.fileService = fileService;
     }
 
     @GetMapping("/home")
     public String getHomePage(@ModelAttribute("newMessage") FileForm newMessage, Model model) {
-        model.addAttribute("files", this.messageListService.getFileListings());
+        model.addAttribute("files", this.fileService.getFileListings());
         return "home";
     }
 
     @PostMapping("/home")
     public String addMessage(@ModelAttribute("newMessage") FileForm messageForm, Model model) {
-        messageListService.addFile(messageForm.getText());
-        model.addAttribute("files", messageListService.getFileListings());
+        fileService.addFile(messageForm.getText());
+        model.addAttribute("files", fileService.getFileListings());
         messageForm.setText("");
         return "home";
     }
