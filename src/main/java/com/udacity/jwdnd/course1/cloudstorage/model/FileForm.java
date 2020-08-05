@@ -1,11 +1,13 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class FileForm {
-    public Object getText() {
-        return null;
+    private Object multiPartFile;
+
+    public Object getMultiPartFile() {
+        return multiPartFile;
     }
 
-    public void setText(String s) {
-        System.out.println("TODO");
+    public void setMultiPartFile(Object multiPartFile) {
+        this.multiPartFile = multiPartFile;
     }
 }

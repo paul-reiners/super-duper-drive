@@ -8,26 +8,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
+
 @Controller
 public class HomeController {
 
-    private FileService fileService;
+    private final FileService fileService;
 
     public HomeController(FileService fileService) {
         this.fileService = fileService;
     }
 
     @GetMapping("/home")
-    public String getHomePage(@ModelAttribute("newMessage") FileForm newMessage, Model model) {
+    public String getHomePage(@ModelAttribute("newFile") FileForm newMessage, Model model) {
         model.addAttribute("files", this.fileService.getFileListings());
+
         return "home";
     }
 
     @PostMapping("/home")
-    public String addMessage(@ModelAttribute("newMessage") FileForm messageForm, Model model) {
-        fileService.addFile(messageForm.getText());
+    public String newFile(@ModelAttribute("multiPartFile") FileForm fileForm, Model model) throws IOException {
+        // fileService.addFile(fileForm.getMultiPartFile());
         model.addAttribute("files", fileService.getFileListings());
-        messageForm.setText("");
+
         return "home";
     }
 }
