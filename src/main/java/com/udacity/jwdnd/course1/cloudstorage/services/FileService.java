@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 public class FileService {
@@ -21,6 +22,7 @@ public class FileService {
 
     public void addFile(MultipartFile multipartFile) throws IOException {
         int fileId = 0;
+        InputStream fis = multipartFile.getInputStream();
         String fileName = multipartFile.getName();
         String contentType = multipartFile.getContentType();
         String fileSize = String.valueOf(multipartFile.getSize());
