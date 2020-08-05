@@ -20,15 +20,15 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String getHomePage(@ModelAttribute("newFile") FileForm newMessage, Model model) {
+    public String getHomePage(@ModelAttribute("newFile") FileForm newFile, Model model) {
         model.addAttribute("files", this.fileService.getFileListings());
 
         return "home";
     }
 
     @PostMapping("/home")
-    public String newFile(@ModelAttribute("multiPartFile") FileForm fileForm, Model model) throws IOException {
-        fileService.addFile(fileForm.getMultiPartFile());
+    public String newFile(FileForm newFile, Model model) throws IOException {
+        fileService.addFile(newFile.getFile());
         model.addAttribute("files", fileService.getFileListings());
 
         return "home";
