@@ -28,7 +28,7 @@ public class HomeController {
 
     @PostMapping("/home")
     public String newFile(@ModelAttribute("multiPartFile") FileForm fileForm, Model model) throws IOException {
-        // fileService.addFile(fileForm.getMultiPartFile());
+        fileService.addFile(fileForm.getMultiPartFile());
         model.addAttribute("files", fileService.getFileListings());
 
         return "home";
