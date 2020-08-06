@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +28,9 @@ public class HomeController {
     }
 
     @PostMapping("/home")
-    public String newFile(FileForm newFile, Model model) throws IOException {
-        fileService.addFile(newFile.getFile());
+    public String newFile(Authentication authentication, FileForm newFile, Model model) throws IOException {
+        String userName = authentication.getName();
+        fileService.addFile(newFile.getFile(), userName);
         model.addAttribute("files", fileService.getFileListings());
 
         return "home";
