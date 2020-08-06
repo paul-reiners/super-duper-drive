@@ -49,13 +49,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
-                                    </td>
-                                    <th scope="row">ExampleFile.txt</th>
-                                </tr>
+                                    <div th:each="file : ${files}">
+                                        <tr>
+                                            <td>
+                                                <a target="_blank" class="btn btn-success">View</a>
+                                                <a  class="btn btn-danger">Delete</a>
+                                            </td>
+                                            <th scope="row" th:text="${file}">ExampleFile.txt</th>
+                                        </tr>
+                                    </div>
                                 </tbody>
                             </table>
                         </div>
