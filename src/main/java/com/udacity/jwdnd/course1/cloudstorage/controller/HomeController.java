@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 
 @Controller
+@RequestMapping("/home")
 public class HomeController {
 
     private final FileService fileService;
@@ -20,14 +22,14 @@ public class HomeController {
         this.fileService = fileService;
     }
 
-    @GetMapping("/home")
+    @GetMapping
     public String getHomePage(@ModelAttribute("newFile") FileForm newFile, Model model) {
         model.addAttribute("files", this.fileService.getFileListings());
 
         return "home";
     }
 
-    @PostMapping("/home")
+    @PostMapping
     public String newFile(Authentication authentication, FileForm newFile, Model model) throws IOException {
         String userName = authentication.getName();
         fileService.addFile(newFile.getFile(), userName);
