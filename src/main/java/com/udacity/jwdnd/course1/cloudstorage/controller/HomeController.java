@@ -30,7 +30,7 @@ public class HomeController {
     }
 
     @PostMapping
-    public String newFile(Authentication authentication, FileForm newFile, Model model) throws IOException {
+    public String newFile(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, Model model) throws IOException {
         String userName = authentication.getName();
         fileService.addFile(newFile.getFile(), userName);
         model.addAttribute("files", fileService.getFileListings());
