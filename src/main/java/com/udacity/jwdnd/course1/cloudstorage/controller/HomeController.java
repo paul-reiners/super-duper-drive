@@ -44,4 +44,12 @@ public class HomeController {
     byte[] getFile(@PathVariable String fileName) {
         return fileService.getFile(fileName).getFileData();
     }
+
+    @GetMapping(value = "/delete-file/{fileName}")
+    public String deleteFile(@PathVariable String fileName, @ModelAttribute("newFile") FileForm newFile, Model model) {
+        fileService.deleteFile(fileName);
+        model.addAttribute("files", fileService.getFileListings());
+
+        return "home";
+    }
 }
