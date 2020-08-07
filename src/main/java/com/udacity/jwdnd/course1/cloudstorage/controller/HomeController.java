@@ -41,7 +41,7 @@ public class HomeController {
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
     )
     public @ResponseBody
-    byte[] getFile() {
-        return fileService.getFile("cover-letter.txt").getFileData();
+    byte[] getFile(@RequestParam String fileName) {
+        return fileService.getFile(fileName).getFileData();
     }
 }
