@@ -42,4 +42,8 @@ public class FileService {
         File file = new File(0, fileName, contentType, fileSize, userId, fileData);
         fileMapper.insert(file);
     }
+
+    public File getFile(String fileName) {
+        return fileMapper.getFile(fileName);
+    }
 }
