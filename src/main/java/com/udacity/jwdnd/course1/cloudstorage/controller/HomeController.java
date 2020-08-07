@@ -37,11 +37,11 @@ public class HomeController {
     }
 
     @GetMapping(
-            value = "/get-file",
+            value = "/get-file/{fileName}",
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
     )
     public @ResponseBody
-    byte[] getFile(@RequestParam String fileName) {
+    byte[] getFile(@PathVariable String fileName) {
         return fileService.getFile(fileName).getFileData();
     }
 }
