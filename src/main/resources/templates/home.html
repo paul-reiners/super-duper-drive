@@ -79,14 +79,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
-                                        </td>
-                                        <th scope="row">Example Note Title</th>
-                                        <td>Example Note Description </td>
-                                    </tr>
+                                    <div th:each="note : ${notes}">
+                                        <tr>
+                                            <td>
+                                                <button type="button" class="btn btn-success">Edit</button>
+                                                <a class="btn btn-danger">Delete</a>
+                                            </td>
+                                            <th scope="row" th:text="${note.getNoteTitle()}">Example Note Title</th>
+                                            <td th:text="${note.getNoteDescription()}">Example Note Description </td>
+                                        </tr>
+                                    </div>
                                 </tbody>
                             </table>
                         </div>
