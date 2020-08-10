@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -21,7 +22,7 @@ public class HomeController {
     }
 
     @GetMapping
-    public String getHomePage(@ModelAttribute("newFile") FileForm newFile, Model model) {
+    public String getHomePage(@ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) {
         model.addAttribute("files", this.fileService.getFileListings());
 
         return "home";
