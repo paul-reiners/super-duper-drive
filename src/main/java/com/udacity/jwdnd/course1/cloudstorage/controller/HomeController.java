@@ -22,14 +22,17 @@ public class HomeController {
     }
 
     @GetMapping
-    public String getHomePage(@ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) {
+    public String getHomePage(
+            @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) {
         model.addAttribute("files", this.fileService.getFileListings());
 
         return "home";
     }
 
     @PostMapping
-    public String newFile(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, Model model) throws IOException {
+    public String newFile(
+            Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
+            @ModelAttribute("newNote") NoteForm newNote, Model model) throws IOException {
         String userName = authentication.getName();
         fileService.addFile(newFile.getFile(), userName);
         model.addAttribute("files", fileService.getFileListings());
@@ -47,7 +50,9 @@ public class HomeController {
     }
 
     @GetMapping(value = "/delete-file/{fileName}")
-    public String deleteFile(@PathVariable String fileName, @ModelAttribute("newFile") FileForm newFile, Model model) {
+    public String deleteFile(
+            @PathVariable String fileName, @ModelAttribute("newFile") FileForm newFile,
+            @ModelAttribute("newNote") NoteForm newNote, Model model) {
         fileService.deleteFile(fileName);
         model.addAttribute("files", fileService.getFileListings());
 
