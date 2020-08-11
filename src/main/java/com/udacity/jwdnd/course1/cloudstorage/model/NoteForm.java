@@ -4,6 +4,16 @@ public class NoteForm {
     private String title;
     private String description;
 
+    public String getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(String noteId) {
+        this.noteId = noteId;
+    }
+
+    private String noteId;
+
     public String getTitle() {
         return title;
     }

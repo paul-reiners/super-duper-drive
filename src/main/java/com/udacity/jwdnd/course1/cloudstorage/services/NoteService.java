@@ -31,8 +31,8 @@ public class NoteService {
         return noteMapper.getNoteListings();
     }
 
-    public Note getNote(String noteTitle) {
-        return noteMapper.getNote(noteTitle);
+    public Note getNote(Integer noteId) {
+        return noteMapper.getNote(noteId);
     }
 
     public void deleteNote(String noteTitle) {

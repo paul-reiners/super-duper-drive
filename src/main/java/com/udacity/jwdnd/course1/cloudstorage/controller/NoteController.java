@@ -32,11 +32,12 @@ public class NoteController {
     public String newNote(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) {
         String userName = authentication.getName();
         String newTitle = newNote.getTitle();
-        Note existingNote = getNote(newTitle);
+        String noteIdStr = newNote.getNoteId();
         String newDescription = newNote.getDescription();
-        if (existingNote == null) {
+        if (noteIdStr.isEmpty()) {
             noteService.addNote(newTitle, newDescription, userName);
         } else {
+            Note existingNote = getNote(Integer.parseInt(noteIdStr));
             noteService.updateNote(existingNote.getNoteId(), newTitle, newDescription);
         }
         model.addAttribute("notes", noteService.getNoteListings());
@@ -44,11 +45,9 @@ public class NoteController {
         return "home";
     }
 
-    @GetMapping(
-            value = "/get-note/{noteTitle}"
-    )
-    public Note getNote(@PathVariable String noteTitle) {
-        return noteService.getNote(noteTitle);
+    @GetMapping(value = "/get-note/{noteId}")
+    public Note getNote(@PathVariable Integer noteId) {
+        return noteService.getNote(noteId);
     }
 
     @GetMapping(value = "/delete-note/{noteTitle}")
