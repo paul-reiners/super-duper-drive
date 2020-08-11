@@ -50,9 +50,11 @@ public class NoteController {
         return noteService.getNote(noteId);
     }
 
-    @GetMapping(value = "/delete-note/{noteTitle}")
-    public String deleteNote(@PathVariable String noteTitle, @ModelAttribute("newNote") NoteForm newNote, Model model) {
-        noteService.deleteNote(noteTitle);
+    @GetMapping(value = "/delete-note/{noteId}")
+    public String deleteNote(
+            @PathVariable Integer noteId, @ModelAttribute("newNote") NoteForm newNote,
+            @ModelAttribute("newFile") FileForm newFile, Model model) {
+        noteService.deleteNote(noteId);
         model.addAttribute("notes", noteService.getNoteListings());
 
         return "home";
