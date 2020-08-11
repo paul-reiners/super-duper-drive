@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import org.springframework.security.core.Authentication;
@@ -26,7 +27,10 @@ public class CredentialController {
     }
 
     @GetMapping
-    public String getHomePage(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
+    public String getHomePage(
+            Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
+            @ModelAttribute("newCredential") CredentialForm newCredential,
+            @ModelAttribute("newNote") NoteForm newNote, Model model) {
         String userName = authentication.getName();
         model.addAttribute("credentials", this.credentialService.getCredentialListings(userName));
 
@@ -34,7 +38,10 @@ public class CredentialController {
     }
 
     @PostMapping("add-credential")
-    public String newCredential(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
+    public String newCredential(
+            Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
+            @ModelAttribute("newCredential") CredentialForm newCredential,
+            @ModelAttribute("newNote") NoteForm newNote, Model model) {
         String userName = authentication.getName();
         String newUrl = newCredential.getUrl();
         String credentialIdStr = newCredential.getCredentialId();
@@ -64,8 +71,10 @@ public class CredentialController {
 
     @GetMapping(value = "/delete-credential/{credentialId}")
     public String deleteCredential(
-            Authentication authentication, @PathVariable Integer credentialId, @ModelAttribute("newCredential") CredentialForm newCredential,
-            @ModelAttribute("newFile") FileForm newFile, Model model) {
+            Authentication authentication, @PathVariable Integer credentialId,
+            @ModelAttribute("newCredential") CredentialForm newCredential,
+            @ModelAttribute("newFile") FileForm newFile,
+            @ModelAttribute("newNote") NoteForm newNote, Model model) {
         credentialService.deleteCredential(credentialId);
         String userName = authentication.getName();
         model.addAttribute("credentials", credentialService.getCredentialListings(userName));
