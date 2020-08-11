@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
@@ -23,7 +24,7 @@ public class HomeController {
 
     @GetMapping
     public String getHomePage(
-            @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) {
+            @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
         model.addAttribute("files", this.fileService.getFileListings());
 
         return "home";
@@ -32,7 +33,7 @@ public class HomeController {
     @PostMapping
     public String newFile(
             Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
-            @ModelAttribute("newNote") NoteForm newNote, Model model) throws IOException {
+            @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) throws IOException {
         String userName = authentication.getName();
         fileService.addFile(newFile.getFile(), userName);
         model.addAttribute("files", fileService.getFileListings());
@@ -52,7 +53,7 @@ public class HomeController {
     @GetMapping(value = "/delete-file/{fileName}")
     public String deleteFile(
             @PathVariable String fileName, @ModelAttribute("newFile") FileForm newFile,
-            @ModelAttribute("newNote") NoteForm newNote, Model model) {
+            @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
         fileService.deleteFile(fileName);
         model.addAttribute("files", fileService.getFileListings());
 

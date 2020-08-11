@@ -179,21 +179,21 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="#" method="POST">
-                                    <input type="hidden" name="credentialId" id="credential-id">
+                                <form action="#" method="POST" th:action="@{/credential/add-credential}" th:object="${newCredential}">
+                                    <input type="hidden" name="credentialId" th:field="*{credentialId}" id="credential-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">URL</label>
-                                        <input type="text" name="url" class="form-control" id="credential-url"
+                                        <input type="text" name="url" th:field="*{url}" class="form-control" id="credential-url"
                                                maxlength="100" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">Username</label>
-                                        <input type="text" name="username" class="form-control" id="credential-username"
+                                        <input type="text" name="username" th:field="*{userName}" class="form-control" id="credential-username"
                                                maxlength="30" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">Password</label>
-                                        <input type="text" name="password" class="form-control" id="credential-password"
+                                        <input type="text" name="password" th:field="*{password}" class="form-control" id="credential-password"
                                                maxlength="30" required>
                                     </div>
                                     <button id="credentialSubmit" type="submit" class="d-none"></button>

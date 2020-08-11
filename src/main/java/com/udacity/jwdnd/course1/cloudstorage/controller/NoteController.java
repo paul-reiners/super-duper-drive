@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
@@ -22,14 +23,14 @@ public class NoteController {
     }
 
     @GetMapping
-    public String getHomePage(@ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) {
+    public String getHomePage(@ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
         model.addAttribute("notes", this.noteService.getNoteListings());
 
         return "home";
     }
 
     @PostMapping("add-note")
-    public String newNote(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) {
+    public String newNote(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
         String userName = authentication.getName();
         String newTitle = newNote.getTitle();
         String noteIdStr = newNote.getNoteId();
@@ -53,7 +54,7 @@ public class NoteController {
     @GetMapping(value = "/delete-note/{noteId}")
     public String deleteNote(
             @PathVariable Integer noteId, @ModelAttribute("newNote") NoteForm newNote,
-            @ModelAttribute("newFile") FileForm newFile, Model model) {
+            @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
         noteService.deleteNote(noteId);
         model.addAttribute("notes", noteService.getNoteListings());
 
