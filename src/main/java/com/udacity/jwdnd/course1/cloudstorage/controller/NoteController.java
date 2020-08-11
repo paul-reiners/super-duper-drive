@@ -29,9 +29,16 @@ public class NoteController {
     }
 
     @PostMapping("add-note")
-    public String newNote(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) throws IOException {
+    public String newNote(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, Model model) {
         String userName = authentication.getName();
-        noteService.addNote(newNote.getTitle(), newNote.getDescription(), userName);
+        String newTitle = newNote.getTitle();
+        Note existingNote = getNote(newTitle);
+        String newDescription = newNote.getDescription();
+        if (existingNote == null) {
+            noteService.addNote(newTitle, newDescription, userName);
+        } else {
+            noteService.updateNote(existingNote.getNoteId(), newTitle, newDescription);
+        }
         model.addAttribute("notes", noteService.getNoteListings());
 
         return "home";
