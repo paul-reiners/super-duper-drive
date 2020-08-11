@@ -4,19 +4,25 @@ import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.SecureRandom;
+import java.util.Base64;
 
 @Controller
 @RequestMapping("credential")
 public class CredentialController {
 
     private final CredentialService credentialService;
+    private final EncryptionService encryptionService;
 
-    public CredentialController(CredentialService credentialService) {
+    public CredentialController(CredentialService credentialService, EncryptionService encryptionService) {
         this.credentialService = credentialService;
+        this.encryptionService = encryptionService;
     }
 
     @GetMapping
@@ -32,12 +38,19 @@ public class CredentialController {
         String userName = authentication.getName();
         String newUrl = newCredential.getUrl();
         String credentialIdStr = newCredential.getCredentialId();
-        String newPassword = newCredential.getPassword();
+        String password = newCredential.getPassword();
+
+        SecureRandom random = new SecureRandom();
+        byte[] key = new byte[16];
+        random.nextBytes(key);
+        String encodedKey = Base64.getEncoder().encodeToString(key);
+        String encryptedPassword = encryptionService.encryptValue(password, encodedKey);
+
         if (credentialIdStr.isEmpty()) {
-            credentialService.addCredential(newUrl, userName, "", newPassword);
+            credentialService.addCredential(newUrl, userName, encodedKey, encryptedPassword);
         } else {
             Credential existingCredential = getCredential(Integer.parseInt(credentialIdStr));
-            credentialService.updateCredential(existingCredential.getCredentialId(), newUrl, "", newPassword);
+            credentialService.updateCredential(existingCredential.getCredentialid(), newUrl, encodedKey, encryptedPassword);
         }
         model.addAttribute("credentials", credentialService.getCredentialListings(userName));
 
