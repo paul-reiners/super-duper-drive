@@ -33,6 +33,7 @@ public class CredentialController {
             @ModelAttribute("newNote") NoteForm newNote, Model model) {
         String userName = authentication.getName();
         model.addAttribute("credentials", this.credentialService.getCredentialListings(userName));
+        model.addAttribute("encryptionService", encryptionService);
 
         return "home";
     }
@@ -60,6 +61,7 @@ public class CredentialController {
             credentialService.updateCredential(existingCredential.getCredentialid(), newUrl, encodedKey, encryptedPassword);
         }
         model.addAttribute("credentials", credentialService.getCredentialListings(userName));
+        model.addAttribute("encryptionService", encryptionService);
 
         return "home";
     }
