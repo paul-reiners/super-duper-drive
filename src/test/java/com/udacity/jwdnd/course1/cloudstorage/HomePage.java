@@ -10,6 +10,12 @@ public class HomePage {
     @FindBy(id = "btnLogout")
     private WebElement logoutButton;
 
+    @FindBy(id = "fileUpload")
+    private WebElement fileUpload;
+
+    @FindBy(id = "btnAddNewNote")
+    private WebElement btnAddNewNote;
+
     private final JavascriptExecutor js;
 
     public HomePage(WebDriver driver) {
@@ -19,5 +25,13 @@ public class HomePage {
 
     public void logout() {
         js.executeScript("arguments[0].click();", logoutButton);
+    }
+
+    public void uploadFile() {
+        js.executeScript("arguments[0].click();", fileUpload);
+    }
+
+    public void addNewNote() {
+        js.executeScript("arguments[0].click();", btnAddNewNote);
     }
 }
