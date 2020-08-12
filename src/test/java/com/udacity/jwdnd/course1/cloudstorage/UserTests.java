@@ -60,7 +60,7 @@ class UserTests {
 	 * that the home page is no longer accessible.
 	 */
 	@Test
-	public void testSignUpLoginLogout() throws InterruptedException {
+	public void testSignUpLoginLogout() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		Assertions.assertEquals("Sign Up", driver.getTitle());
 
@@ -69,7 +69,6 @@ class UserTests {
 		signupPage.setLastName("Lennon");
 		signupPage.setUserName("lennon");
 		signupPage.setPassword("julia");
-		Thread.sleep(5000);
 		signupPage.signUp();
 
 		driver.get("http://localhost:" + this.port + "/login");
@@ -78,11 +77,9 @@ class UserTests {
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.setUserName("lennon");
 		loginPage.setPassword("julia");
-		Thread.sleep(5000);
 		loginPage.login();
 
 		HomePage homePage = new HomePage(driver);
-		Thread.sleep(5000);
 		homePage.logout();
 
 		driver.get("http://localhost:" + this.port + "/home");
