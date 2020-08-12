@@ -7,8 +7,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+/**
+ * Tests for User Signup, Login, and Unauthorized Access Restrictions.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CloudStorageApplicationTests {
+class UserTests {
 
 	@LocalServerPort
 	private int port;
@@ -32,9 +35,21 @@ class CloudStorageApplicationTests {
 		}
 	}
 
+	/**
+	 * Write a test that verifies that an unauthorized user can only access the login and signup pages.
+	 */
 	@Test
-	public void getLoginPage() {
+	public void testPageAccess() throws InterruptedException {
 		driver.get("http://localhost:" + this.port + "/login");
 		Assertions.assertEquals("Login", driver.getTitle());
+		Thread.sleep(5000);
+
+		driver.get("http://localhost:" + this.port + "/signup");
+		Assertions.assertEquals("Sign Up", driver.getTitle());
+		Thread.sleep(5000);
+
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+		Thread.sleep(5000);
 	}
 }
