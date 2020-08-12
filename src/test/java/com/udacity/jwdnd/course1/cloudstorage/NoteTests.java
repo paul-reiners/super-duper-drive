@@ -94,6 +94,21 @@ class NoteTests {
 		Assertions.assertEquals(modifiedNoteDescription, note.getNoteDescription());
 	}
 
+	/**
+	 * Test that edits an existing note and verifies that the changes are displayed.
+	 */
+	@Test
+	public void testDelete() {
+		String noteTitle = "My Note";
+		String noteDescription = "This is my note.";
+		HomePage homePage = signUpAndLogin();
+		createNote(noteTitle, noteDescription, homePage);
+		homePage.navToNotesTab();
+		homePage = new HomePage(driver);
+		homePage.deleteNote();
+		Assertions.assertTrue(homePage.noNotes(driver));
+	}
+
 	private void createNote(String noteTitle, String noteDescription, HomePage homePage) {
 		homePage.navToNotesTab();
 		homePage.addNewNote();

@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -46,6 +47,9 @@ public class HomePage {
     @FindBy(id = "note-description")
     private WebElement txtModifyNoteDescription;
 
+    @FindBy(id = "ancDeleteNote")
+    private WebElement ancDeleteNote;
+
     private final JavascriptExecutor js;
 
     private final WebDriverWait wait;
@@ -62,6 +66,10 @@ public class HomePage {
 
     public void editNote() {
         js.executeScript("arguments[0].click();", btnEditNote);
+    }
+
+    public void deleteNote() {
+        js.executeScript("arguments[0].click();", ancDeleteNote);
     }
 
     public void uploadFile() {
@@ -96,6 +104,20 @@ public class HomePage {
 
     public void saveNoteChanges() {
         js.executeScript("arguments[0].click();", btnSaveChanges);
+    }
+
+    public boolean noNotes(WebDriver driver) {
+        return !isElementPresent(By.id("tableNoteTitle"), driver) && !isElementPresent(By.id("tableNoteDescription"), driver);
+    }
+
+    public boolean isElementPresent(By locatorKey, WebDriver driver) {
+        try {
+            driver.findElement(locatorKey);
+
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
     }
 
     public Note getFirstNote() {
