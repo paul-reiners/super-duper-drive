@@ -2,7 +2,9 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -46,6 +48,56 @@ class UserTests {
 
 		driver.get("http://localhost:" + this.port + "/signup");
 		Assertions.assertEquals("Sign Up", driver.getTitle());
+		Thread.sleep(5000);
+
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+		Thread.sleep(5000);
+	}
+
+	/**
+	 * Write a test that signs up a new user, logs in, verifies that the home page is accessible, logs out, and verifies
+	 * that the home page is no longer accessible.
+	 */
+	@Test
+	public void testSignUpLoginLogout() throws InterruptedException {
+		driver.get("http://localhost:" + this.port + "/signup");
+		Assertions.assertEquals("Sign Up", driver.getTitle());
+
+		WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
+		inputFirstName.sendKeys("John");
+
+		WebElement inputLastName = driver.findElement(By.id("inputLastName"));
+		inputLastName.sendKeys("Lennon");
+
+		WebElement inputUserName = driver.findElement(By.id("inputUsername"));
+		inputUserName.sendKeys("lennon");
+
+		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys("julia");
+
+		Thread.sleep(5000);
+
+		WebElement submitButton = driver.findElement(By.id("submit-button"));
+		submitButton.click();
+
+		driver.get("http://localhost:" + this.port + "/login");
+		Assertions.assertEquals("Login", driver.getTitle());
+
+		inputUserName = driver.findElement(By.id("inputUsername"));
+		inputUserName.sendKeys("lennon");
+
+		inputPassword = driver.findElement(By.id("inputPassword"));
+		inputPassword.sendKeys("julia");
+		Thread.sleep(5000);
+
+		submitButton = driver.findElement(By.id("submit-button"));
+		submitButton.click();
+		Assertions.assertEquals("Home", driver.getTitle());
+		Thread.sleep(5000);
+
+		WebElement btnLogout = driver.findElement(By.id("btnLogout"));
+		btnLogout.click();
 		Thread.sleep(5000);
 
 		driver.get("http://localhost:" + this.port + "/home");
