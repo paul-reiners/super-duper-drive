@@ -1,41 +1,39 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
-import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CredentialService {
     private final UserMapper userMapper;
-    private final CredentialMapper noteMapper;
+    private final CredentialMapper credentialMapper;
 
-    public CredentialService(UserMapper userMapper, CredentialMapper noteMapper) {
+    public CredentialService(UserMapper userMapper, CredentialMapper credentialMapper) {
         this.userMapper = userMapper;
-        this.noteMapper = noteMapper;
+        this.credentialMapper = credentialMapper;
     }
 
     public void addCredential(String url, String userName, String key, String password) {
         Integer userId = userMapper.getUser(userName).getUserId();
         Credential credential = new Credential(0, url, userName, key, password, userId);
-        noteMapper.insert(credential);
+        credentialMapper.insert(credential);
     }
 
     public Credential[] getCredentialListings(String userName) {
-        return noteMapper.getCredentialListings(userName);
+        return credentialMapper.getCredentialListings(userName);
     }
 
     public Credential getCredential(Integer noteId) {
-        return noteMapper.getCredential(noteId);
+        return credentialMapper.getCredential(noteId);
     }
 
     public void deleteCredential(Integer noteId) {
-        noteMapper.deleteCredential(noteId);
+        credentialMapper.deleteCredential(noteId);
     }
 
     public void updateCredential(Integer credentialId, String url, String key, String password) {
-        noteMapper.updateCredential(credentialId, url, key, password);
+        credentialMapper.updateCredential(credentialId, url, key, password);
     }
 }
