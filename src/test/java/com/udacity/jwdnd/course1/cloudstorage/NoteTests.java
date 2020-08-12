@@ -58,7 +58,13 @@ class NoteTests {
 	@Test
 	public void testCreateAndDisplay() throws InterruptedException {
 		HomePage homePage = signUpAndLogin();
+		homePage.navToNotesTab();
 		homePage.addNewNote();
+		homePage.setNoteTitle("My Note");
+		homePage.setNoteDescription("This is my note.");
+		Thread.sleep(5000);
+		homePage.saveNoteChanges();
+		homePage.navToNotesTab();
 		Thread.sleep(5000);
 	}
 }

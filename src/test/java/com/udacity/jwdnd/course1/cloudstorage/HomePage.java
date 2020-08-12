@@ -16,6 +16,18 @@ public class HomePage {
     @FindBy(id = "btnAddNewNote")
     private WebElement btnAddNewNote;
 
+    @FindBy(id = "note-title")
+    private WebElement txtNoteTitle;
+
+    @FindBy(id = "nav-notes-tab")
+    private WebElement navNotesTab;
+
+    @FindBy(id = "note-description")
+    private WebElement txtNoteDescription;
+
+    @FindBy(id = "btnSaveChanges")
+    private WebElement btnSaveChanges;
+
     private final JavascriptExecutor js;
 
     public HomePage(WebDriver driver) {
@@ -33,5 +45,21 @@ public class HomePage {
 
     public void addNewNote() {
         js.executeScript("arguments[0].click();", btnAddNewNote);
+    }
+
+    public void setNoteTitle(String noteTitle) {
+        js.executeScript("arguments[0].value='"+ noteTitle +"';", txtNoteTitle);
+    }
+
+    public void navToNotesTab() {
+        js.executeScript("arguments[0].click();", navNotesTab);
+    }
+
+    public void setNoteDescription(String noteDescription) {
+        js.executeScript("arguments[0].value='"+ noteDescription +"';", txtNoteDescription);
+    }
+
+    public void saveNoteChanges() {
+        js.executeScript("arguments[0].click();", btnSaveChanges);
     }
 }
