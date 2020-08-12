@@ -6,8 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Tests for User Signup, Login, and Unauthorized Access Restrictions.
@@ -41,18 +44,15 @@ class UserTests {
 	 * Write a test that verifies that an unauthorized user can only access the login and signup pages.
 	 */
 	@Test
-	public void testPageAccess() throws InterruptedException {
+	public void testPageAccess() {
 		driver.get("http://localhost:" + this.port + "/login");
 		Assertions.assertEquals("Login", driver.getTitle());
-		Thread.sleep(5000);
 
 		driver.get("http://localhost:" + this.port + "/signup");
 		Assertions.assertEquals("Sign Up", driver.getTitle());
-		Thread.sleep(5000);
 
 		driver.get("http://localhost:" + this.port + "/home");
 		Assertions.assertEquals("Login", driver.getTitle());
-		Thread.sleep(5000);
 	}
 
 	/**
@@ -64,44 +64,29 @@ class UserTests {
 		driver.get("http://localhost:" + this.port + "/signup");
 		Assertions.assertEquals("Sign Up", driver.getTitle());
 
-		WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
-		inputFirstName.sendKeys("John");
-
-		WebElement inputLastName = driver.findElement(By.id("inputLastName"));
-		inputLastName.sendKeys("Lennon");
-
-		WebElement inputUserName = driver.findElement(By.id("inputUsername"));
-		inputUserName.sendKeys("lennon");
-
-		WebElement inputPassword = driver.findElement(By.id("inputPassword"));
-		inputPassword.sendKeys("julia");
-
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.setFirstName("John");
+		signupPage.setLastName("Lennon");
+		signupPage.setUserName("lennon");
+		signupPage.setPassword("julia");
 		Thread.sleep(5000);
-
-		WebElement submitButton = driver.findElement(By.id("submit-button"));
-		submitButton.click();
+		signupPage.signUp();
 
 		driver.get("http://localhost:" + this.port + "/login");
 		Assertions.assertEquals("Login", driver.getTitle());
 
-		inputUserName = driver.findElement(By.id("inputUsername"));
-		inputUserName.sendKeys("lennon");
-
-		inputPassword = driver.findElement(By.id("inputPassword"));
-		inputPassword.sendKeys("julia");
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.setUserName("lennon");
+		loginPage.setPassword("julia");
 		Thread.sleep(5000);
+		loginPage.login();
 
-		submitButton = driver.findElement(By.id("submit-button"));
-		submitButton.click();
-		Assertions.assertEquals("Home", driver.getTitle());
+		HomePage homePage = new HomePage(driver);
 		Thread.sleep(5000);
-
-		WebElement btnLogout = driver.findElement(By.id("btnLogout"));
-		btnLogout.click();
-		Thread.sleep(5000);
+		homePage.logout();
 
 		driver.get("http://localhost:" + this.port + "/home");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		Assertions.assertEquals("Login", driver.getTitle());
-		Thread.sleep(5000);
 	}
 }
