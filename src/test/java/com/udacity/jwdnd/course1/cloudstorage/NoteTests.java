@@ -60,18 +60,45 @@ class NoteTests {
 	 */
 	@Test
 	public void testCreateAndDisplay() {
-		HomePage homePage = signUpAndLogin();
-		homePage.navToNotesTab();
-		homePage.addNewNote();
 		String noteTitle = "My Note";
-		homePage.setNoteTitle(noteTitle);
 		String noteDescription = "This is my note.";
-		homePage.setNoteDescription(noteDescription);
-		homePage.saveNoteChanges();
+		HomePage homePage = signUpAndLogin();
+		createNote(noteTitle, noteDescription, homePage);
 		homePage.navToNotesTab();
 		homePage = new HomePage(driver);
 		Note note = homePage.getFirstNote();
 		Assertions.assertEquals(noteTitle, note.getNoteTitle());
 		Assertions.assertEquals(noteDescription, note.getNoteDescription());
+	}
+
+	/**
+	 * Test that edits an existing note and verifies that the changes are displayed.
+	 */
+	@Test
+	public void testModify() {
+		String noteTitle = "My Note";
+		String noteDescription = "This is my note.";
+		HomePage homePage = signUpAndLogin();
+		createNote(noteTitle, noteDescription, homePage);
+		homePage.navToNotesTab();
+		homePage = new HomePage(driver);
+		homePage.editNote();
+		String modifiedNoteTitle = "My Modified Note";
+		homePage.modifyNoteTitle(modifiedNoteTitle);
+		String modifiedNoteDescription = "This is my modified note.";
+		homePage.modifyNoteDescription(modifiedNoteDescription);
+		homePage.saveNoteChanges();
+		homePage.navToNotesTab();
+		Note note = homePage.getFirstNote();
+		Assertions.assertEquals(modifiedNoteTitle, note.getNoteTitle());
+		Assertions.assertEquals(modifiedNoteDescription, note.getNoteDescription());
+	}
+
+	private void createNote(String noteTitle, String noteDescription, HomePage homePage) {
+		homePage.navToNotesTab();
+		homePage.addNewNote();
+		homePage.setNoteTitle(noteTitle);
+		homePage.setNoteDescription(noteDescription);
+		homePage.saveNoteChanges();
 	}
 }

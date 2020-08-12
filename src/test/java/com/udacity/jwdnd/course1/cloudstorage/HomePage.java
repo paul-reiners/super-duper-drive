@@ -37,18 +37,31 @@ public class HomePage {
     @FindBy(id = "tableNoteDescription")
     private WebElement tableNoteDescription;
 
+    @FindBy(id = "btnEditNote")
+    private WebElement btnEditNote;
+
+    @FindBy(id = "title")
+    private WebElement txtModifyNoteTitle;
+
+    @FindBy(id = "note-description")
+    private WebElement txtModifyNoteDescription;
+
     private final JavascriptExecutor js;
 
-    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
-        this.driver = driver;
+        wait = new WebDriverWait(driver, 500);
     }
 
     public void logout() {
         js.executeScript("arguments[0].click();", logoutButton);
+    }
+
+    public void editNote() {
+        js.executeScript("arguments[0].click();", btnEditNote);
     }
 
     public void uploadFile() {
@@ -61,6 +74,16 @@ public class HomePage {
 
     public void setNoteTitle(String noteTitle) {
         js.executeScript("arguments[0].value='"+ noteTitle +"';", txtNoteTitle);
+    }
+
+    public void modifyNoteTitle(String newNoteTitle) {
+        wait.until(ExpectedConditions.elementToBeClickable(txtNoteTitle)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(txtNoteTitle)).sendKeys(newNoteTitle);
+    }
+
+    public void modifyNoteDescription(String newNoteDescription) {
+        wait.until(ExpectedConditions.elementToBeClickable(txtModifyNoteDescription)).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(txtModifyNoteDescription)).sendKeys(newNoteDescription);
     }
 
     public void navToNotesTab() {
@@ -76,7 +99,6 @@ public class HomePage {
     }
 
     public Note getFirstNote() {
-        WebDriverWait wait = new WebDriverWait(driver, 500);
         String title = wait.until(ExpectedConditions.elementToBeClickable(tableNoteTitle)).getText();
         String description = tableNoteDescription.getText();
 
