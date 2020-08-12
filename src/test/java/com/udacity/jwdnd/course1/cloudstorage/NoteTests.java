@@ -1,11 +1,14 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Tests for Note Creation, Viewing, Editing, and Deletion.
@@ -56,15 +59,19 @@ class NoteTests {
 	 * Test that creates a note, and verifies it is displayed.
 	 */
 	@Test
-	public void testCreateAndDisplay() throws InterruptedException {
+	public void testCreateAndDisplay() {
 		HomePage homePage = signUpAndLogin();
 		homePage.navToNotesTab();
 		homePage.addNewNote();
-		homePage.setNoteTitle("My Note");
-		homePage.setNoteDescription("This is my note.");
-		Thread.sleep(5000);
+		String noteTitle = "My Note";
+		homePage.setNoteTitle(noteTitle);
+		String noteDescription = "This is my note.";
+		homePage.setNoteDescription(noteDescription);
 		homePage.saveNoteChanges();
 		homePage.navToNotesTab();
-		Thread.sleep(5000);
+		homePage = new HomePage(driver);
+		Note note = homePage.getFirstNote();
+		Assertions.assertEquals(noteTitle, note.getNoteTitle());
+		Assertions.assertEquals(noteDescription, note.getNoteDescription());
 	}
 }

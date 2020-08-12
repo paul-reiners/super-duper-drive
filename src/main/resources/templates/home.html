@@ -95,8 +95,8 @@
                                     <a class="btn btn-danger"
                                        th:href="@{/note/delete-note/{noteId}(noteId = ${note.getNoteId()})}">Delete</a>
                                 </td>
-                                <th scope="row" th:text="${note.getNoteTitle()}">Example Note Title</th>
-                                <td th:text="${note.getNoteDescription()}">Example Note Description</td>
+                                <th id="tableNoteTitle" scope="row" th:text="${note.getNoteTitle()}">Example Note Title</th>
+                                <td id="tableNoteDescription" th:text="${note.getNoteDescription()}">Example Note Description</td>
                             </tr>
                         </tbody>
                     </table>
