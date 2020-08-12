@@ -20,8 +20,8 @@ public class FileService {
         this.userMapper = userMapper;
     }
 
-    public String[] getFileListings() {
-        return fileMapper.getFileListings();
+    public String[] getFileListings(Integer userId) {
+        return fileMapper.getFileListings(userId);
     }
 
     public void addFile(MultipartFile multipartFile, String userName) throws IOException {

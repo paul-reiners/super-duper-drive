@@ -3,7 +3,9 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
+import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,15 +19,22 @@ import java.io.IOException;
 public class HomeController {
 
     private final FileService fileService;
+    private final UserService userService;
 
-    public HomeController(FileService fileService) {
+    public HomeController(FileService fileService, UserService userService) {
         this.fileService = fileService;
+        this.userService = userService;
     }
 
     @GetMapping
     public String getHomePage(
-            @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
-        model.addAttribute("files", this.fileService.getFileListings());
+            Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
+            @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential,
+            Model model) {
+        String userName = authentication.getName();
+        User user = userService.getUser(userName);
+        Integer userId = user.getUserId();
+        model.addAttribute("files", this.fileService.getFileListings(userId));
 
         return "home";
     }
@@ -36,7 +45,9 @@ public class HomeController {
             @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) throws IOException {
         String userName = authentication.getName();
         fileService.addFile(newFile.getFile(), userName);
-        model.addAttribute("files", fileService.getFileListings());
+        User user = userService.getUser(userName);
+        Integer userId = user.getUserId();
+        model.addAttribute("files", fileService.getFileListings(userId));
 
         return "home";
     }
@@ -52,10 +63,14 @@ public class HomeController {
 
     @GetMapping(value = "/delete-file/{fileName}")
     public String deleteFile(
-            @PathVariable String fileName, @ModelAttribute("newFile") FileForm newFile,
-            @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
+            Authentication authentication, @PathVariable String fileName, @ModelAttribute("newFile") FileForm newFile,
+            @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential,
+            Model model) {
         fileService.deleteFile(fileName);
-        model.addAttribute("files", fileService.getFileListings());
+        String userName = authentication.getName();
+        User user = userService.getUser(userName);
+        Integer userId = user.getUserId();
+        model.addAttribute("files", fileService.getFileListings(userId));
 
         return "home";
     }
