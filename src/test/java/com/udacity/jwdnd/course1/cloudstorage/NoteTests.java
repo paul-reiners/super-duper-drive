@@ -21,6 +21,7 @@ class NoteTests extends CloudStorageApplicationTests {
 		createNote(noteTitle, noteDescription, homePage);
 		homePage.navToNotesTab();
 		homePage = new HomePage(driver);
+		Assertions.assertFalse(homePage.noNotes(driver));
 		homePage.deleteNote();
 		Assertions.assertTrue(homePage.noNotes(driver));
 	}
