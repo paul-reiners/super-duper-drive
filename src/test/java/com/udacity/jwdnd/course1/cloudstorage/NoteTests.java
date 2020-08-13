@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.Ordered;
 
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +57,21 @@ class NoteTests {
 	}
 
 	/**
+	 * Test that edits an existing note and verifies that the changes are displayed.
+	 */
+	@Test
+	public void testDelete() {
+		String noteTitle = "My Note";
+		String noteDescription = "This is my note.";
+		HomePage homePage = signUpAndLogin();
+		createNote(noteTitle, noteDescription, homePage);
+		homePage.navToNotesTab();
+		homePage = new HomePage(driver);
+		homePage.deleteNote();
+		Assertions.assertTrue(homePage.noNotes(driver));
+	}
+
+	/**
 	 * Test that creates a note, and verifies it is displayed.
 	 */
 	@Test
@@ -69,6 +85,8 @@ class NoteTests {
 		Note note = homePage.getFirstNote();
 		Assertions.assertEquals(noteTitle, note.getNoteTitle());
 		Assertions.assertEquals(noteDescription, note.getNoteDescription());
+		homePage.deleteNote();
+		homePage.logout();
 	}
 
 	/**
@@ -92,21 +110,6 @@ class NoteTests {
 		Note note = homePage.getFirstNote();
 		Assertions.assertEquals(modifiedNoteTitle, note.getNoteTitle());
 		Assertions.assertEquals(modifiedNoteDescription, note.getNoteDescription());
-	}
-
-	/**
-	 * Test that edits an existing note and verifies that the changes are displayed.
-	 */
-	@Test
-	public void testDelete() {
-		String noteTitle = "My Note";
-		String noteDescription = "This is my note.";
-		HomePage homePage = signUpAndLogin();
-		createNote(noteTitle, noteDescription, homePage);
-		homePage.navToNotesTab();
-		homePage = new HomePage(driver);
-		homePage.deleteNote();
-		Assertions.assertTrue(homePage.noNotes(driver));
 	}
 
 	private void createNote(String noteTitle, String noteDescription, HomePage homePage) {
