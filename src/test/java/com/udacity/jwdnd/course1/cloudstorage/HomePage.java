@@ -173,6 +173,12 @@ public class HomePage {
         return !isElementPresent(By.id("tableNoteTitle"), driver) && !isElementPresent(By.id("tableNoteDescription"), driver);
     }
 
+    public boolean noCredentials(WebDriver driver) {
+        return !isElementPresent(By.id("tblCredentialUrl"), driver) &&
+                !isElementPresent(By.id("tblCredentialUsername"), driver) &&
+                !isElementPresent(By.id("tblCredentialPassword"), driver);
+    }
+
     public boolean isElementPresent(By locatorKey, WebDriver driver) {
         try {
             driver.findElement(locatorKey);

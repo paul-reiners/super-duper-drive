@@ -84,14 +84,19 @@ class CredentialTests extends CloudStorageApplicationTests {
 	 * Test that deletes an existing set of credentials and verifies that the credentials are no longer displayed.
 	 */
 	@Test
-	public void testDeletion() throws InterruptedException {
+	public void testDeletion() {
 		HomePage homePage = signUpAndLogin();
 		createCredential(BEATLES_URL, MCCARTNEY_USERNAME, MCCARTNEY_PASSWORD, homePage);
 		createCredential(RINGO_URL, RINGO_USERNAME, RINGO_PASSWORD, homePage);
 		createCredential("http://www.johnlennon.com/", "lennon", "julia", homePage);
-		Thread.sleep(5000);
+		Assertions.assertFalse(homePage.noCredentials(driver));
 		homePage.deleteCredential();
 		homePage.navToCredentialsTab();
-		Thread.sleep(5000);
+		homePage.deleteCredential();
+		homePage.navToCredentialsTab();
+		homePage.deleteCredential();
+		homePage.navToCredentialsTab();
+		Assertions.assertTrue(homePage.noCredentials(driver));
+		homePage.logout();
 	}
 }
