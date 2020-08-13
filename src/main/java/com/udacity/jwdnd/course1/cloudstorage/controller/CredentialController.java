@@ -1,11 +1,9 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
-import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
-import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
+import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +18,12 @@ public class CredentialController {
 
     private final CredentialService credentialService;
     private final EncryptionService encryptionService;
+    private final UserService userService;
 
-    public CredentialController(CredentialService credentialService, EncryptionService encryptionService) {
+    public CredentialController(CredentialService credentialService, EncryptionService encryptionService, UserService userService) {
         this.credentialService = credentialService;
         this.encryptionService = encryptionService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -32,7 +32,8 @@ public class CredentialController {
             @ModelAttribute("newCredential") CredentialForm newCredential,
             @ModelAttribute("newNote") NoteForm newNote, Model model) {
         String userName = authentication.getName();
-        model.addAttribute("credentials", this.credentialService.getCredentialListings(userName));
+        User user = userService.getUser(userName);
+        model.addAttribute("credentials", this.credentialService.getCredentialListings(user.getUserId()));
         model.addAttribute("encryptionService", encryptionService);
 
         return "home";
@@ -55,12 +56,13 @@ public class CredentialController {
         String encryptedPassword = encryptionService.encryptValue(password, encodedKey);
 
         if (credentialIdStr.isEmpty()) {
-            credentialService.addCredential(newUrl, userName, encodedKey, encryptedPassword);
+            credentialService.addCredential(newUrl, userName, newCredential.getUserName(), encodedKey, encryptedPassword);
         } else {
             Credential existingCredential = getCredential(Integer.parseInt(credentialIdStr));
-            credentialService.updateCredential(existingCredential.getCredentialid(), newUrl, encodedKey, encryptedPassword);
+            credentialService.updateCredential(existingCredential.getCredentialid(), newCredential.getUserName(), newUrl, encodedKey, encryptedPassword);
         }
-        model.addAttribute("credentials", credentialService.getCredentialListings(userName));
+        User user = userService.getUser(userName);
+        model.addAttribute("credentials", credentialService.getCredentialListings(user.getUserId()));
         model.addAttribute("encryptionService", encryptionService);
 
         return "home";
@@ -79,7 +81,8 @@ public class CredentialController {
             @ModelAttribute("newNote") NoteForm newNote, Model model) {
         credentialService.deleteCredential(credentialId);
         String userName = authentication.getName();
-        model.addAttribute("credentials", credentialService.getCredentialListings(userName));
+        User user = userService.getUser(userName);
+        model.addAttribute("credentials", credentialService.getCredentialListings(user.getUserId()));
 
         return "home";
     }

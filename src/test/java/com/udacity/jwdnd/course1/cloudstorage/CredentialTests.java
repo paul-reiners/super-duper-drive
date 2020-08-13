@@ -1,5 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,6 +17,21 @@ class CredentialTests extends CloudStorageApplicationTests {
 	@Test
 	public void testCredentialCreation() throws InterruptedException {
 		HomePage homePage = signUpAndLogin();
+		homePage.navToCredentialsTab();
+		homePage.addNewCredential();
+		String url = "https://www.thebeatles.com/";
+		homePage.setCredentialUrl(url);
+		String username = "mccartney";
+		homePage.setCredentialUsername(username);
+		String password = "mary";
+		homePage.setCredentialPassword(password);
+		homePage.saveCredentialChanges();
+		homePage.navToCredentialsTab();
+		Thread.sleep(5000);
+		Credential credential = homePage.getFirstCredential();
+		Assertions.assertEquals(url, credential.getUrl());
+		Assertions.assertEquals(username, credential.getUserName());
+		Assertions.assertNotEquals(password, credential.getPassword());
 		Thread.sleep(5000);
 	}
 }

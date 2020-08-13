@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -19,6 +20,9 @@ public class HomePage {
 
     @FindBy(id = "btnAddNewNote")
     private WebElement btnAddNewNote;
+
+    @FindBy(id = "btnAddNewCredential")
+    private WebElement btnAddNewCredential;
 
     @FindBy(id = "note-title")
     private WebElement txtNoteTitle;
@@ -44,14 +48,32 @@ public class HomePage {
     @FindBy(id = "btnEditNote")
     private WebElement btnEditNote;
 
-    @FindBy(id = "title")
-    private WebElement txtModifyNoteTitle;
-
     @FindBy(id = "note-description")
     private WebElement txtModifyNoteDescription;
 
     @FindBy(id = "ancDeleteNote")
     private WebElement ancDeleteNote;
+
+    @FindBy(id = "credential-url")
+    private WebElement txtCredentialUrl;
+
+    @FindBy(id = "credential-username")
+    private WebElement txtCredentialUsername;
+
+    @FindBy(id = "credential-password")
+    private WebElement txtCredentialPassword;
+
+    @FindBy(id = "btnCredentialSaveChanges")
+    private WebElement btnCredentialSaveChanges;
+
+    @FindBy(id = "tblCredentialUrl")
+    private WebElement tblCredentialUrl;
+
+    @FindBy(id = "tblCredentialUsername")
+    private WebElement tblCredentialUsername;
+
+    @FindBy(id = "tblCredentialPassword")
+    private WebElement tblCredentialPassword;
 
     private final JavascriptExecutor js;
 
@@ -83,8 +105,24 @@ public class HomePage {
         js.executeScript("arguments[0].click();", btnAddNewNote);
     }
 
+    public void addNewCredential() {
+        js.executeScript("arguments[0].click();", btnAddNewCredential);
+    }
+
     public void setNoteTitle(String noteTitle) {
-        js.executeScript("arguments[0].value='"+ noteTitle +"';", txtNoteTitle);
+        js.executeScript("arguments[0].value='" + noteTitle + "';", txtNoteTitle);
+    }
+
+    public void setCredentialUrl(String url) {
+        js.executeScript("arguments[0].value='" + url + "';", txtCredentialUrl);
+    }
+
+    public void setCredentialUsername(String username) {
+        js.executeScript("arguments[0].value='" + username + "';", txtCredentialUsername);
+    }
+
+    public void setCredentialPassword(String password) {
+        js.executeScript("arguments[0].value='" + password + "';", txtCredentialPassword);
     }
 
     public void modifyNoteTitle(String newNoteTitle) {
@@ -113,6 +151,10 @@ public class HomePage {
         js.executeScript("arguments[0].click();", btnSaveChanges);
     }
 
+    public void saveCredentialChanges() {
+        js.executeScript("arguments[0].click();", btnCredentialSaveChanges);
+    }
+
     public boolean noNotes(WebDriver driver) {
         return !isElementPresent(By.id("tableNoteTitle"), driver) && !isElementPresent(By.id("tableNoteDescription"), driver);
     }
@@ -132,5 +174,13 @@ public class HomePage {
         String description = tableNoteDescription.getText();
 
         return new Note(title, description);
+    }
+
+    public Credential getFirstCredential() {
+        String url = wait.until(ExpectedConditions.elementToBeClickable(tblCredentialUrl)).getText();
+        String username = tblCredentialUsername.getText();
+        String password = tblCredentialPassword.getText();
+
+        return new Credential(url, username, password);
     }
 }
