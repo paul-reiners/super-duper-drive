@@ -83,6 +83,7 @@ public class CredentialController {
         String userName = authentication.getName();
         User user = userService.getUser(userName);
         model.addAttribute("credentials", credentialService.getCredentialListings(user.getUserId()));
+        model.addAttribute("encryptionService", encryptionService);
 
         return "home";
     }

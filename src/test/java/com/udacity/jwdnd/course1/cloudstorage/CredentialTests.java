@@ -10,31 +10,41 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CredentialTests extends CloudStorageApplicationTests {
+
+	public static final String BEATLES_URL = "https://www.thebeatles.com/";
+	public static final String MCCARTNEY_USERNAME = "mccartney";
+	public static final String MCCARTNEY_PASSWORD = "mary";
+	public static final String RINGO_URL = "http://www.ringostarr.com/";
+	public static final String RINGO_USERNAME = "starr";
+	public static final String RINGO_PASSWORD = "barbara";
+
 	/**
 	 * Test that creates a set of credentials, verifies that they are displayed, and verifies that the displayed
 	 * password is encrypted.
 	 */
 	@Test
 	public void testCredentialCreation() {
-		String url = "https://www.thebeatles.com/";
-		String username = "mccartney";
-		String password = "mary";
 		HomePage homePage = signUpAndLogin();
-		createAndVerifyCredential(url, username, password, homePage);
+		createAndVerifyCredential(BEATLES_URL, MCCARTNEY_USERNAME, MCCARTNEY_PASSWORD, homePage);
 		homePage.deleteCredential();
 		homePage.logout();
 	}
 
 	private void createAndVerifyCredential(String url, String username, String password, HomePage homePage) {
-		homePage.navToCredentialsTab();
-		homePage.addNewCredential();
-		setCredentialFields(url, username, password, homePage);
-		homePage.saveCredentialChanges();
+		createCredential(url, username, password, homePage);
 		homePage.navToCredentialsTab();
 		Credential credential = homePage.getFirstCredential();
 		Assertions.assertEquals(url, credential.getUrl());
 		Assertions.assertEquals(username, credential.getUserName());
 		Assertions.assertNotEquals(password, credential.getPassword());
+	}
+
+	private void createCredential(String url, String username, String password, HomePage homePage) {
+		homePage.navToCredentialsTab();
+		homePage.addNewCredential();
+		setCredentialFields(url, username, password, homePage);
+		homePage.saveCredentialChanges();
+		homePage.navToCredentialsTab();
 	}
 
 	private void setCredentialFields(String url, String username, String password, HomePage homePage) {
@@ -49,17 +59,14 @@ class CredentialTests extends CloudStorageApplicationTests {
 	 */
 	@Test
 	public void testCredentialModification() {
-		String url = "https://www.thebeatles.com/";
-		String username = "mccartney";
-		String password = "mary";
 		HomePage homePage = signUpAndLogin();
-		createAndVerifyCredential(url, username, password, homePage);
+		createAndVerifyCredential(BEATLES_URL, MCCARTNEY_USERNAME, MCCARTNEY_PASSWORD, homePage);
 		Credential originalCredential = homePage.getFirstCredential();
 		String firstEncryptedPassword = originalCredential.getPassword();
 		homePage.editCredential();
-		String newUrl = "http://www.ringostarr.com/";
-		String newCredentialUsername = "starr";
-		String newPassword = "barbara";
+		String newUrl = RINGO_URL;
+		String newCredentialUsername = RINGO_USERNAME;
+		String newPassword = RINGO_PASSWORD;
 		setCredentialFields(newUrl, newCredentialUsername, newPassword, homePage);
 		homePage.saveCredentialChanges();
 		homePage.navToCredentialsTab();
@@ -71,5 +78,20 @@ class CredentialTests extends CloudStorageApplicationTests {
 		Assertions.assertNotEquals(firstEncryptedPassword, modifiedCredentialPassword);
 		homePage.deleteCredential();
 		homePage.logout();
+	}
+
+	/**
+	 * Test that deletes an existing set of credentials and verifies that the credentials are no longer displayed.
+	 */
+	@Test
+	public void testDeletion() throws InterruptedException {
+		HomePage homePage = signUpAndLogin();
+		createCredential(BEATLES_URL, MCCARTNEY_USERNAME, MCCARTNEY_PASSWORD, homePage);
+		createCredential(RINGO_URL, RINGO_USERNAME, RINGO_PASSWORD, homePage);
+		createCredential("http://www.johnlennon.com/", "lennon", "julia", homePage);
+		Thread.sleep(5000);
+		homePage.deleteCredential();
+		homePage.navToCredentialsTab();
+		Thread.sleep(5000);
 	}
 }
