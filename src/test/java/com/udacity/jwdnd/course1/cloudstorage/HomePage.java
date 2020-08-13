@@ -48,6 +48,9 @@ public class HomePage {
     @FindBy(id = "btnEditNote")
     private WebElement btnEditNote;
 
+    @FindBy(id = "btnEditCredential")
+    private WebElement btnEditCredential;
+
     @FindBy(id = "note-description")
     private WebElement txtModifyNoteDescription;
 
@@ -94,6 +97,10 @@ public class HomePage {
 
     public void editNote() {
         js.executeScript("arguments[0].click();", btnEditNote);
+    }
+
+    public void editCredential() {
+        js.executeScript("arguments[0].click();", btnEditCredential);
     }
 
     public void deleteNote() {
