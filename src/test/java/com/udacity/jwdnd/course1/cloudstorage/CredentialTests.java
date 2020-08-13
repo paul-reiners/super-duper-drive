@@ -15,7 +15,7 @@ class CredentialTests extends CloudStorageApplicationTests {
 	 * password is encrypted.
 	 */
 	@Test
-	public void testCredentialCreation() throws InterruptedException {
+	public void testCredentialCreation() {
 		HomePage homePage = signUpAndLogin();
 		homePage.navToCredentialsTab();
 		homePage.addNewCredential();
@@ -27,11 +27,9 @@ class CredentialTests extends CloudStorageApplicationTests {
 		homePage.setCredentialPassword(password);
 		homePage.saveCredentialChanges();
 		homePage.navToCredentialsTab();
-		Thread.sleep(5000);
 		Credential credential = homePage.getFirstCredential();
 		Assertions.assertEquals(url, credential.getUrl());
 		Assertions.assertEquals(username, credential.getUserName());
 		Assertions.assertNotEquals(password, credential.getPassword());
-		Thread.sleep(5000);
 	}
 }
