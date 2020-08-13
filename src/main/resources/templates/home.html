@@ -164,7 +164,7 @@
                                         th:data-decryptedPassword = "${encryptionService.decryptValue(credential.password, credential.key)}"
                                         th:onclick="showCredentialModal(this.getAttribute('data-id'), this.getAttribute('data-url'), this.getAttribute('data-username'), this.getAttribute('data-decryptedPassword'))">
                                     Edit</button>
-                                <a class="btn btn-danger"
+                                <a class="btn btn-danger" id="aDeleteCredential"
                                    th:href="@{/credential/delete-credential/{credentialId}(credentialId = ${credential.getCredentialid()})}">Delete</a>
                             </td>
                             <th id="tblCredentialUrl" scope="row" th:text="${credential.getUrl()}">Example Credential URL</th>

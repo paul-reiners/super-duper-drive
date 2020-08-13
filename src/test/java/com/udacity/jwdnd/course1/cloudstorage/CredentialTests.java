@@ -31,5 +31,7 @@ class CredentialTests extends CloudStorageApplicationTests {
 		Assertions.assertEquals(url, credential.getUrl());
 		Assertions.assertEquals(username, credential.getUserName());
 		Assertions.assertNotEquals(password, credential.getPassword());
+		homePage.deleteCredential();
+		homePage.logout();
 	}
 }

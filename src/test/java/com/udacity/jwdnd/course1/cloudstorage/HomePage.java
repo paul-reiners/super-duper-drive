@@ -54,6 +54,9 @@ public class HomePage {
     @FindBy(id = "ancDeleteNote")
     private WebElement ancDeleteNote;
 
+    @FindBy(id = "aDeleteCredential")
+    private WebElement aDeleteCredential;
+
     @FindBy(id = "credential-url")
     private WebElement txtCredentialUrl;
 
@@ -95,6 +98,10 @@ public class HomePage {
 
     public void deleteNote() {
         js.executeScript("arguments[0].click();", ancDeleteNote);
+    }
+
+    public void deleteCredential() {
+        js.executeScript("arguments[0].click();", aDeleteCredential);
     }
 
     public void uploadFile() {
