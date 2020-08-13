@@ -26,6 +26,9 @@ public class HomePage {
     @FindBy(id = "nav-notes-tab")
     private WebElement navNotesTab;
 
+    @FindBy(id = "nav-credentials-tab")
+    private WebElement navCredentialsTab;
+
     @FindBy(id = "note-description")
     private WebElement txtNoteDescription;
 
@@ -96,6 +99,10 @@ public class HomePage {
 
     public void navToNotesTab() {
         js.executeScript("arguments[0].click();", navNotesTab);
+    }
+
+    public void navToCredentialsTab() {
+        js.executeScript("arguments[0].click();", navCredentialsTab);
     }
 
     public void setNoteDescription(String noteDescription) {
