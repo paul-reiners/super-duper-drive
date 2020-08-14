@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @Controller
 @RequestMapping("note")
 public class NoteController {
@@ -30,7 +28,10 @@ public class NoteController {
     }
 
     @PostMapping("add-note")
-    public String newNote(Authentication authentication, @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
+    public String newNote(
+            Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
+            @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential,
+            Model model) {
         String userName = authentication.getName();
         String newTitle = newNote.getTitle();
         String noteIdStr = newNote.getNoteId();
@@ -42,8 +43,9 @@ public class NoteController {
             noteService.updateNote(existingNote.getNoteId(), newTitle, newDescription);
         }
         model.addAttribute("notes", noteService.getNoteListings());
+        model.addAttribute("result", "success");
 
-        return "home";
+        return "result";
     }
 
     @GetMapping(value = "/get-note/{noteId}")

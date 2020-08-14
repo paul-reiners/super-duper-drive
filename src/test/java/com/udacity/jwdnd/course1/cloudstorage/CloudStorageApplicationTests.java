@@ -12,7 +12,7 @@ class CloudStorageApplicationTests {
 
 	protected WebDriver driver;
 	@LocalServerPort
-	private int port;
+	protected int port;
 
 	@BeforeAll
 	static void beforeAll() {

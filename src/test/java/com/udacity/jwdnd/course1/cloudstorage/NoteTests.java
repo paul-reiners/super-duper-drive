@@ -14,7 +14,7 @@ class NoteTests extends CloudStorageApplicationTests {
 	 * Test that edits an existing note and verifies that the changes are displayed.
 	 */
 	@Test
-	public void testDelete() {
+	public void testDelete() throws InterruptedException {
 		String noteTitle = "My Note";
 		String noteDescription = "This is my note.";
 		HomePage homePage = signUpAndLogin();
@@ -30,7 +30,7 @@ class NoteTests extends CloudStorageApplicationTests {
 	 * Test that creates a note, and verifies it is displayed.
 	 */
 	@Test
-	public void testCreateAndDisplay() {
+	public void testCreateAndDisplay() throws InterruptedException {
 		String noteTitle = "My Note";
 		String noteDescription = "This is my note.";
 		HomePage homePage = signUpAndLogin();
@@ -48,7 +48,7 @@ class NoteTests extends CloudStorageApplicationTests {
 	 * Test that edits an existing note and verifies that the changes are displayed.
 	 */
 	@Test
-	public void testModify() {
+	public void testModify() throws InterruptedException {
 		String noteTitle = "My Note";
 		String noteDescription = "This is my note.";
 		HomePage homePage = signUpAndLogin();
@@ -61,6 +61,8 @@ class NoteTests extends CloudStorageApplicationTests {
 		String modifiedNoteDescription = "This is my modified note.";
 		homePage.modifyNoteDescription(modifiedNoteDescription);
 		homePage.saveNoteChanges();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickOk();
 		homePage.navToNotesTab();
 		Note note = homePage.getFirstNote();
 		Assertions.assertEquals(modifiedNoteTitle, note.getNoteTitle());
@@ -73,5 +75,8 @@ class NoteTests extends CloudStorageApplicationTests {
 		homePage.setNoteTitle(noteTitle);
 		homePage.setNoteDescription(noteDescription);
 		homePage.saveNoteChanges();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickOk();
+		homePage.navToNotesTab();
 	}
 }
