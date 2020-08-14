@@ -59,7 +59,8 @@ public class NoteController {
             @ModelAttribute("newFile") FileForm newFile, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
         noteService.deleteNote(noteId);
         model.addAttribute("notes", noteService.getNoteListings());
+        model.addAttribute("result", "success");
 
-        return "home";
+        return "result";
     }
 }
