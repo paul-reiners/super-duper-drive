@@ -80,7 +80,8 @@ public class HomeController {
         User user = userService.getUser(userName);
         Integer userId = user.getUserId();
         model.addAttribute("files", fileService.getFileListings(userId));
+        model.addAttribute("result", "success");
 
-        return "home";
+        return "result";
     }
 }
