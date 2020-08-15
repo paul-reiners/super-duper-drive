@@ -44,6 +44,8 @@ class CredentialTests extends CloudStorageApplicationTests {
 		homePage.addNewCredential();
 		setCredentialFields(url, username, password, homePage);
 		homePage.saveCredentialChanges();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickOk();
 		homePage.navToCredentialsTab();
 	}
 
@@ -69,6 +71,8 @@ class CredentialTests extends CloudStorageApplicationTests {
 		String newPassword = RINGO_PASSWORD;
 		setCredentialFields(newUrl, newCredentialUsername, newPassword, homePage);
 		homePage.saveCredentialChanges();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickOk();
 		homePage.navToCredentialsTab();
 		Credential modifiedCredential = homePage.getFirstCredential();
 		Assertions.assertEquals(newUrl, modifiedCredential.getUrl());
