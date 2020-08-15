@@ -85,7 +85,8 @@ public class CredentialController {
         User user = userService.getUser(userName);
         model.addAttribute("credentials", credentialService.getCredentialListings(user.getUserId()));
         model.addAttribute("encryptionService", encryptionService);
+        model.addAttribute("result", "success");
 
-        return "home";
+        return "result";
     }
 }

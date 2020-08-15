@@ -27,6 +27,8 @@ class CredentialTests extends CloudStorageApplicationTests {
 		HomePage homePage = signUpAndLogin();
 		createAndVerifyCredential(BEATLES_URL, MCCARTNEY_USERNAME, MCCARTNEY_PASSWORD, homePage);
 		homePage.deleteCredential();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickOk();
 		homePage.logout();
 	}
 
@@ -81,6 +83,7 @@ class CredentialTests extends CloudStorageApplicationTests {
 		Assertions.assertNotEquals(newPassword, modifiedCredentialPassword);
 		Assertions.assertNotEquals(firstEncryptedPassword, modifiedCredentialPassword);
 		homePage.deleteCredential();
+		resultPage.clickOk();
 		homePage.logout();
 	}
 
@@ -95,10 +98,14 @@ class CredentialTests extends CloudStorageApplicationTests {
 		createCredential("http://www.johnlennon.com/", "lennon", "julia", homePage);
 		Assertions.assertFalse(homePage.noCredentials(driver));
 		homePage.deleteCredential();
+		ResultPage resultPage = new ResultPage(driver);
+		resultPage.clickOk();
 		homePage.navToCredentialsTab();
 		homePage.deleteCredential();
+		resultPage.clickOk();
 		homePage.navToCredentialsTab();
 		homePage.deleteCredential();
+		resultPage.clickOk();
 		homePage.navToCredentialsTab();
 		Assertions.assertTrue(homePage.noCredentials(driver));
 		homePage.logout();
