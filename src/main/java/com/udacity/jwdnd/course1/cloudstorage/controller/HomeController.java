@@ -39,15 +39,19 @@ public class HomeController {
             Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
             @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential,
             Model model) {
-        String userName = authentication.getName();
-        User user = userService.getUser(userName);
-        Integer userId = user.getUserId();
+        Integer userId = getUserId(authentication);
         model.addAttribute("files", this.fileService.getFileListings(userId));
-        model.addAttribute("notes", noteService.getNoteListings());
-        model.addAttribute("credentials", credentialService.getCredentialListings(user.getUserId()));
+        model.addAttribute("notes", noteService.getNoteListings(userId));
+        model.addAttribute("credentials", credentialService.getCredentialListings(userId));
         model.addAttribute("encryptionService", encryptionService);
 
         return "home";
+    }
+
+    private Integer getUserId(Authentication authentication) {
+        String userName = authentication.getName();
+        User user = userService.getUser(userName);
+        return user.getUserId();
     }
 
     @PostMapping
@@ -95,9 +99,7 @@ public class HomeController {
             @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential,
             Model model) {
         fileService.deleteFile(fileName);
-        String userName = authentication.getName();
-        User user = userService.getUser(userName);
-        Integer userId = user.getUserId();
+        Integer userId = getUserId(authentication);
         model.addAttribute("files", fileService.getFileListings(userId));
         model.addAttribute("result", "success");
 
