@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -54,11 +55,27 @@ public class HomeController {
             Authentication authentication, @ModelAttribute("newFile") FileForm newFile,
             @ModelAttribute("newNote") NoteForm newNote, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) throws IOException {
         String userName = authentication.getName();
-        fileService.addFile(newFile.getFile(), userName);
         User user = userService.getUser(userName);
         Integer userId = user.getUserId();
+        String[] fileListings = fileService.getFileListings(userId);
+        MultipartFile multipartFile = newFile.getFile();
+        String fileName = multipartFile.getOriginalFilename();
+        boolean fileIsDuplicate = false;
+        for (String fileListing: fileListings) {
+            if (fileListing.equals(fileName)) {
+                fileIsDuplicate = true;
+
+                break;
+            }
+        }
+        if (!fileIsDuplicate) {
+            fileService.addFile(multipartFile, userName);
+            model.addAttribute("result", "success");
+        } else {
+            model.addAttribute("result", "error");
+            model.addAttribute("message", "You have tried to add a duplicate file.");
+        }
         model.addAttribute("files", fileService.getFileListings(userId));
-        model.addAttribute("result", "success");
 
         return "result";
     }

@@ -20,8 +20,8 @@
             </div>
             <div th:if="${result == 'error'}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
-                <span>Example Error Message</span>
-                <span>Click <a>here</a> to continue.</span>
+                <span th:text="${message}">Example Error Message</span>
+                <span>Click <a href="/home" id="aResultFailure">here</a> to continue.</span>
             </div>
         </div>
     </body>
